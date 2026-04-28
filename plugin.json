@@ -1,0 +1,23 @@
+{
+  "name": "PageViewCounter",
+  "description": "Use Matomo to add a page view counter to pages on your website",
+  "version": "0.0.1",
+  "theme": false,
+  "require": {
+    "matomo": ">=5.0.0-b1,<6.0.0-b1"
+  },
+  "authors": [
+    {
+      "name": "Sietse Snel",
+      "email": "s.t.snel@uu.nl"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/utrechtuniversity/matomo-plugin-pageviewcounter/issues",
+    "source": "https://github.com/utrechtuniversity/matomo-plugin-pageviewcounter"
+  },
+  "license": "GPL v3",
+  "keywords": [
+    "counter", "pageviews"
+  ]
+}
