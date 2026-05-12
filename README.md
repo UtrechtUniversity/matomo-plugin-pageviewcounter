@@ -3,24 +3,31 @@
 This plugin configures Matomo so that it is possible to add a visit
 counter to pages that are tracked by Matomo.
 
-# Installation steps
+# Installation
+
+A complete Matomo setup including this plugin is available at <https://github.com/utrechtuniversity/matomo-ansible>.
+Alternatively, you can install the plugin manually by unpacking the code from this repository in a
+subdirectory of the Matomo plugins directory (e.g. `/var/www/html/matomo/plugins`).
+
+# Configuration steps
 
 ## Configure CORS domains
 
-You need to allow cross-origin requests from the domain of the pages with the counter to
+You need to allow cross-origin requests from the domain of the pages that have the counter to
 the Matomo website. See <https://matomo.org/faq/how-to/faq_18694/> for instructions.
 
 ## Configure allowed site IDs
 
 The plugin makes visit data of a particular site public. An administrator has to specifically
-enable it for a particular site ID using the `enabledSiteIds` plugin setting. Set this parameter to
-a comma-separated list of site IDs for which data should be made public, e.g. `1,2`.
+enable it for a particular site ID using the `enabledSiteIds` plugin setting (accessible in the Matomo web
+interface via *General settings -> Page View Counter* once the plugin has been installed). Set this parameter to
+a comma-separated list of site IDs for which visit data should be made public, e.g. `1,2`.
 
 ## Add tracking code to page
 
 In order to track visits to the page, you need to add the standard Matomo tracker code.
 See <https://developer.matomo.org/guides/tracking-javascript-guide#finding-the-piwik-tracking-code> for
-additional information.
+more information.
 
 ## Add page counter display code to website
 
