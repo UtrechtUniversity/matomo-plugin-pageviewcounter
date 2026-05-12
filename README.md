@@ -39,6 +39,85 @@ For example:
 https://www.matomo.test/index.php?module=API&method=PageViewCounter.getVisits&format=JSON&siteId=1&url=https%3A%2F%2Fmysite.test/foo.html
 ```
 
+Example page source:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+<!-- Matomo tracking code-->
+<script>
+  var _paq = window._paq = window._paq || [];
+  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="https://www.matomo.test/";
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
+    _paq.push(['setSiteId', '2']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<!-- End Matomo tracking code -->
+
+<!-- Matomo visit counter -->
+<script>
+async function updateVisitCounter() {
+  const pageUrl = encodeURIComponent(window.location.href);
+  const matomoServer = "https://www.matomo.test";
+  const siteId = "2";
+  const requestUrl = `${matomoServer}/index.php?module=API&method=PageViewCounter.getVisits&format=JSON&siteId=${siteId}&url=${pageUrl}`;
+
+  try {
+    const response = await fetch(requestUrl, { mode: 'cors' } );
+
+    if (!response.ok) {
+      throw new Error(`Cannot fetch visit counter data: ${response.status} for ${requestUrl}`);
+    }
+
+    const text = await response.text();
+
+    let data;
+    try {
+      data = JSON.parse(text);
+    } catch {
+      console.error("Visit count data is not valid JSON:", text);
+      return;
+    }
+
+    if (!Object.hasOwn(data, "nb_visits")) {
+      console.error('No "nb_visits" key found in response:', data);
+      return;
+    }
+
+    const el = document.getElementById("visitcounter");
+    if (!el) {
+      console.error('Element with id "visitcounter" not found.');
+      return;
+    }
+    el.textContent = data.nb_visits;
+
+  } catch (error) {
+    console.error("Failed to fetch stats:", error);
+  }
+}
+document.addEventListener("DOMContentLoaded", updateVisitCounter);
+</script>
+<!-- End Matomo visit counter -->
+
+</head>
+<body>
+<p>Number of page visits: <span id="visitcounter"> ... </span>
+</body>
+</html>
+```
+
+When using this example code, ensure that the URL of the Matomo server (`www.matomo.test`) and the site ID (`2`) are changed so that
+they match with your Matomo server.
+
 # See also
 
 * [Classic Counter Matomo plugin](https://plugins.matomo.org/ClassicCounter): a similar plugin that displays a visit counter in a retro digital clock format.
